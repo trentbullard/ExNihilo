@@ -89,7 +89,7 @@ ExNihilo/
 ### Frontend
 1. Build the Angular app for GitHub Pages:
    ```bash
-   ng build --output-path docs --base-href /<repository-name>/
+   ng build --output-path docs --base-href /ExNihilo/
    ```
 2. Push the `docs/` folder to the `gh-pages` branch:
    ```bash
@@ -131,7 +131,7 @@ This project is licensed under the [MIT License](./LICENSE).
 ## 📞 Contact
 For questions or feedback, reach out to:
 - [GitHub Issues](https://github.com/trentbullard/exnihilo/issues)
-- Email: [your-email@example.com](mailto:your-email@example.com)
+- Email: [trent.bullard@gmail.com](mailto:trent.bullard@gmail.com)
 
 ---
 
