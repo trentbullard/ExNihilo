@@ -9,11 +9,14 @@
   </mat-menu>
   <span>ExNihilo</span>
   <span class="toolbar-spacer"></span>
-  <button mat-icon-button [mat-menu-trigger-for]="userMenu">
-    <mat-icon>person</mat-icon>
-  </button>
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item>Profile</button>
-    <button mat-menu-item>Logout</button>
-  </mat-menu>
+  <ng-container *ngIf="!!user; else noUser">
+    <img mat-card-avatar [matMenuTriggerFor]="userMenu" [src]="user.picture" class="avatar" />
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>Profile</button>
+      <button mat-menu-item>Logout</button>
+    </mat-menu>
+  </ng-container>
+  <ng-template #noUser>
+    <button mat-button (click)="onClickLogin()">Login</button>
+  </ng-template>
 </mat-toolbar>

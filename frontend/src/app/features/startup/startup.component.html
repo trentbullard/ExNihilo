@@ -1,0 +1,22 @@
+<ng-container *ngIf="!!user; else noUser">
+  <h1>Good Morning, {{ user.name }}!</h1>
+  <p>Today is {{ currentDate | date: 'fullDate' }}</p>
+  
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Today's Workout: Chest/Shoulders/Triceps</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>Bench Press</li>
+        <li>Overhead Press</li>
+        <li>Tricep Dips</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #noUser>
+  <h1>Welcome to ExNihilo!</h1>
+  <p>Log in to get started!</p>
+</ng-template>
