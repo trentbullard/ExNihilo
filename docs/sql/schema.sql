@@ -1,0 +1,79 @@
+CREATE TABLE IF NOT EXISTS public.users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    auth_provider VARCHAR(20) NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.routines (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.user_routines (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES public.users(id) ON DELETE CASCADE,
+    routine_id INTEGER REFERENCES public.routines(id) ON DELETE CASCADE,
+    is_active BOOLEAN DEFAULT FALSE,
+    last_accessed TIMESTAMP,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.routine_workouts (
+    id SERIAL PRIMARY KEY,
+    routine_id INTEGER REFERENCES public.routines(id) ON DELETE CASCADE,
+    workout_id INTEGER REFERENCES public.workouts(id) ON DELETE CASCADE,
+    day INTEGER CHECK (day >= 0 AND day <= 6),
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.muscles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.movements (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(50),
+    equipment VARCHAR(50),
+    difficulty VARCHAR(20),
+    url TEXT,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.workouts (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.workout_movements (
+    id SERIAL PRIMARY KEY,
+    workout_id INTEGER REFERENCES public.workouts(id) ON DELETE CASCADE,
+    movement_id INTEGER REFERENCES public.movements(id) ON DELETE CASCADE,
+    order_num INTEGER NOT NULL,
+    sets_reps JSONB,
+    weight INTEGER DEFAULT 0,
+    rest_duration INTEGER,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public.movement_muscles (
+    id SERIAL PRIMARY KEY,
+    movement_id INTEGER REFERENCES public.movements(id) ON DELETE CASCADE,
+    muscle_id INTEGER REFERENCES public.muscles(id) ON DELETE CASCADE,
+    priority INTEGER NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

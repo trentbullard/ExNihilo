@@ -25,7 +25,7 @@ To create a clean, flat Material UI that complements a flame-themed logo, you ca
      Ensures readability and contrast.  
 
 4. **Complementary Colors**  
-   - **Complementary**: Teal Blue (`#00796B`)  
+   - **Complementary**: Teal Blue (`#00796B`, `#61918C`)  
      Offers a calming contrast to the warm tones, suitable for secondary actions or statuses.  
 
 5. **Analogous Colors**  
