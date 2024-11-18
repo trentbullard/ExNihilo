@@ -1,0 +1,33 @@
+<mat-toolbar >
+  <button mat-icon-button [mat-menu-trigger-for]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Profile</button>
+    <button mat-menu-item>Settings</button>
+    <button mat-menu-item>Logout</button>
+  </mat-menu>
+  <span>ExNihilo</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button class="person-icon" aria-label="Person icon-button with person icon">
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="main-content">
+  <h1>Good Morning, User!</h1>
+  <p>Today is {{ currentDate | date: 'fullDate' }}</p>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Today's Focus: Chest/Shoulders/Triceps</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>Bench Press</li>
+        <li>Overhead Press</li>
+        <li>Tricep Dips</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>
