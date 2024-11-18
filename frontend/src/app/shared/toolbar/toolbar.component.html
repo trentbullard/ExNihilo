@@ -1,0 +1,19 @@
+<mat-toolbar >
+  <button mat-icon-button [mat-menu-trigger-for]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Routines</button>
+    <button mat-menu-item>Workouts</button>
+    <button mat-menu-item>Movements</button>
+  </mat-menu>
+  <span>ExNihilo</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button [mat-menu-trigger-for]="userMenu">
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item>Profile</button>
+    <button mat-menu-item>Logout</button>
+  </mat-menu>
+</mat-toolbar>

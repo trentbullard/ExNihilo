@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-toolbar',
   standalone: true,
   imports: [
     CommonModule,
@@ -19,10 +18,11 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
     MatCardModule,
     ToolbarComponent
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './toolbar.component.html',
+  styleUrl: './toolbar.component.scss'
 })
-export class AppComponent {
+
+export class ToolbarComponent {
   title = 'ExNihilo';
   currentDate: Date;
 
