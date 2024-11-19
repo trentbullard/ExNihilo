@@ -1,63 +1,29 @@
-# Node.js
+# General Node.js
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.env
+
+# Logs
+logs
+*.log
+logs/*.log
+
+# Angular build output
+dist/
+build/
+
+# Environment files
+frontend/src/app/environments/environment*.ts
+
+# IDE Files
+.vscode/
+.idea/
+
+# System Files
 .DS_Store
-.idea/
-.vscode/
-*.log
-coverage/
-dist/
-build/
-*.tsbuildinfo
-
-# Angular
-# Compiled output
-dist/
-out-tsc/
-build/
-
-# Dependency directories
-node_modules/
-
-# IDE-specific files
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-.vscode/
-
-# Logs and debug files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-*.log
-
-# Temporary files
-.tmp/
-temp/
-*.tmp
-*.temp
-*.swp
-
-# Environment
-.env
-.env.*.local
-
-# Generated files
-*.js
-*.d.ts
-*.js.map
-*.ngfactory.ts
-*.ngsummary.json
-
-# System files
 Thumbs.db
-.DS_Store
 
-# Frontend
-frontend/src/app/environments/environment.ts
-frontend/src/app/environments/environment.prod.ts
+# Other
+.env
+*.env
