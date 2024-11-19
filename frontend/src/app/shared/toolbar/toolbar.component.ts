@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -9,7 +10,14 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-toolbar',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatToolbarModule, MatIconModule, MatMenuModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+  ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',
 })
@@ -24,11 +32,14 @@ export class ToolbarComponent {
       this.user = user;
     });
 
-    this.authService.initializeGoogleOneTap(
-      '222659911685-ulfsp7uu4fd6usp3mdmmrfio4bubud1q.apps.googleusercontent.com'
-    );
+    const authToken = this.authService.getToken();
+    if (authToken) {
+      this.authService.handleToken(authToken);
+    } else {
+      this.authService.initializeGoogleOneTap();
+    }
   }
-  
+
   onClickLogin(): void {
     this.authService.signIn();
   }
