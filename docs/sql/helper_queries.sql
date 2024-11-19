@@ -50,3 +50,6 @@ update user_routines set is_active = FALSE where user_id = 2 and routine_id = 1;
 update routine_workouts set day = 0 where id = 1;
 update movements set name = 'pushup' where id = 1;
 update workout_movements set movement_id = 2 where id = 1;
+
+alter table users add first_name VARCHAR(50) default current_timestamp;
+alter table users add last_name VARCHAR(50) default current_timestamp;
