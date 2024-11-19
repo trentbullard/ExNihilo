@@ -1,7 +1,26 @@
 {
+  "name": "exnihilo",
+  "version": "1.0.0",
+  "description": "fitness tracking application designed to help users create and manage workout routines",
+  "main": "server.js",
+  "repository": "https://github.com/trentbullard/exnihilo.git",
+  "author": "trent bullard <trent.bullard@gmail.com",
+  "license": "custom see ../LICENSE",
+  "private": true,
   "dependencies": {
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "google-auth-library": "^9.15.0"
-  }
+    "fs": "^0.0.1-security",
+    "google-auth-library": "^9.15.0",
+    "log4js": "^6.9.1",
+    "pg": "^8.13.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "type": "module"
 }
