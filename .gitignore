@@ -57,3 +57,7 @@ temp/
 # System files
 Thumbs.db
 .DS_Store
+
+# Frontend
+frontend/src/app/environments/environment.ts
+frontend/src/app/environments/environment.prod.ts
