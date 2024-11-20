@@ -1,45 +1,66 @@
-CREATE TABLE IF NOT EXISTS public.users (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    auth_provider VARCHAR(20) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    profile_picture text,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.routines (
+CREATE TABLE IF NOT EXISTS auth_providers (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    provider VARCHAR(50) NOT NULL,
+    provider_user_id VARCHAR(255) NOT NULL,
+    provider_user_email VARCHAR(255) NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_provider_user UNIQUE (provider, provider_user_id)
+);
+
+CREATE TABLE IF NOT EXISTS routines (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.user_routines (
+CREATE TABLE IF NOT EXISTS user_routines (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES public.users(id) ON DELETE CASCADE,
-    routine_id INTEGER REFERENCES public.routines(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    routine_id INTEGER REFERENCES routines(id) ON DELETE CASCADE,
     is_active BOOLEAN DEFAULT FALSE,
     last_accessed TIMESTAMP,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.routine_workouts (
+CREATE TABLE IF NOT EXISTS workouts (
     id SERIAL PRIMARY KEY,
-    routine_id INTEGER REFERENCES public.routines(id) ON DELETE CASCADE,
-    workout_id INTEGER REFERENCES public.workouts(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS routine_workouts (
+    id SERIAL PRIMARY KEY,
+    routine_id INTEGER REFERENCES routines(id) ON DELETE CASCADE,
+    workout_id INTEGER REFERENCES workouts(id) ON DELETE CASCADE,
     day INTEGER CHECK (day >= 0 AND day <= 6),
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.muscles (
+CREATE TABLE IF NOT EXISTS muscles (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.movements (
+CREATE TABLE IF NOT EXISTS movements (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50),
@@ -50,17 +71,10 @@ CREATE TABLE IF NOT EXISTS public.movements (
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.workouts (
+CREATE TABLE IF NOT EXISTS workout_movements (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS public.workout_movements (
-    id SERIAL PRIMARY KEY,
-    workout_id INTEGER REFERENCES public.workouts(id) ON DELETE CASCADE,
-    movement_id INTEGER REFERENCES public.movements(id) ON DELETE CASCADE,
+    workout_id INTEGER REFERENCES workouts(id) ON DELETE CASCADE,
+    movement_id INTEGER REFERENCES movements(id) ON DELETE CASCADE,
     order_num INTEGER NOT NULL,
     sets_reps JSONB,
     weight INTEGER DEFAULT 0,
@@ -69,10 +83,10 @@ CREATE TABLE IF NOT EXISTS public.workout_movements (
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS public.movement_muscles (
+CREATE TABLE IF NOT EXISTS movement_muscles (
     id SERIAL PRIMARY KEY,
-    movement_id INTEGER REFERENCES public.movements(id) ON DELETE CASCADE,
-    muscle_id INTEGER REFERENCES public.muscles(id) ON DELETE CASCADE,
+    movement_id INTEGER REFERENCES movements(id) ON DELETE CASCADE,
+    muscle_id INTEGER REFERENCES muscles(id) ON DELETE CASCADE,
     priority INTEGER NOT NULL,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP

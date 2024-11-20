@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
   const certificate = fs.readFileSync(process.env.SSL_CERT, 'utf8');
   const ca = fs.readFileSync(process.env.SSL_CA, 'utf8');
   const credentials = { key: privateKey, cert: certificate, ca: ca };
-  https.createServer(credentials, app).listen(port, () => {
+  https.createServer(credentials, app).listen(PORT, () => {
     console.log(`Listening securely on port ${PORT}`);
   });
 } else {

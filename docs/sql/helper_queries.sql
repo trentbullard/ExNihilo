@@ -9,6 +9,7 @@ insert into muscles (name) values ('gluteus minimus');
 insert into movement_muscles (movement_id, muscle_id, priority) values (4, 19, 3);
 
 select * from users;
+select * from auth_providers;
 select * from user_routines;
 select * from routines;
 select * from workouts;
@@ -51,5 +52,11 @@ update routine_workouts set day = 0 where id = 1;
 update movements set name = 'pushup' where id = 1;
 update workout_movements set movement_id = 2 where id = 1;
 
-alter table users add first_name VARCHAR(50) default current_timestamp;
-alter table users add last_name VARCHAR(50) default current_timestamp;
+alter table users add first_name VARCHAR(128);
+alter table users add last_name VARCHAR(128);
+alter table users add email VARCHAR(255) UNIQUE NOT NULL;
+alter table users add profile_picture text;
+
+drop DATABASE exnihilo;
+
+delete from users;

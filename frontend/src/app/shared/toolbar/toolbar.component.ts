@@ -31,13 +31,6 @@ export class ToolbarComponent {
     this.authService.user$.subscribe((user: any) => {
       this.user = user;
     });
-
-    const authToken = this.authService.getToken();
-    if (authToken) {
-      this.authService.handleToken(authToken);
-    } else {
-      this.authService.initializeGoogleOneTap();
-    }
   }
 
   onClickLogin(): void {

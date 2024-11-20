@@ -1,6 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +11,12 @@ export class AuthService {
   private userSubject: BehaviorSubject<any | null> = new BehaviorSubject<
     any | null
   >(null);
-  private tokenKey = 'auth_token';
 
   get user$(): Observable<any | null> {
     return this.userSubject.asObservable();
   }
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone, private apiService: ApiService) {}
 
   initializeGoogleOneTap(): void {
     (window as any).google.accounts.id.initialize({
@@ -29,55 +30,55 @@ export class AuthService {
 
   private handleCredentialResponse(response: any): void {
     const idToken = response.credential;
-    this.handleToken(idToken);
+
+    this.apiService.post('auth/google', { idToken }).subscribe({
+      next: (user: any) => {
+        this.zone.run(() => {
+          this.userSubject.next(user);
+        });
+      },
+      error: (error: any) => {
+        console.error('Authentication error:', error);
+      },
+    });
   }
 
-  handleToken(token: string): void {
-    this.saveToken(token);
-    const decodedToken = this.decodeToken(token);
-
-    const user = {
-      name: decodedToken.name,
-      email: decodedToken.email,
-      picture: decodedToken.picture,
-    };
-
-    this.zone.run(() => {
-      this.userSubject.next(user);
+  checkSession(): void {
+    this.apiService.get('auth/session').subscribe({
+      next: (user: any) => {
+        this.zone.run(() => {
+          this.userSubject.next(user);
+        });
+      },
+      error: (error: any) => {
+        console.error('Session error:', error);
+        this.initializeGoogleOneTap();
+      },
     });
   }
 
   signIn(): void {
     this.initializeGoogleOneTap();
-    (window as any).google.accounts.id.prompt();
   }
 
   signOut(): void {
-    this.clearToken();
-    this.zone.run(() => {
-      this.userSubject.next(null);
+    this.apiService.post('auth/logout', {}).subscribe({
+      next: () => {
+        this.zone.run(() => {
+          this.userSubject.next(null);
+        });
+      },
+      error: (error: any) => {
+        console.error('Logout error:', error);
+      },
     });
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  clearToken(): void {
-    localStorage.removeItem(this.tokenKey);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
-
-  decodeToken(token: string): any {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(atob(base64));
+  getApiAuthToken(input: string): string {
+    const thisMinute = new Date().toISOString().slice(0, 16);
+    return CryptoJS.HmacSHA512(
+      thisMinute + input,
+      environment.apiAuthSecret
+    ).toString();
   }
 }
