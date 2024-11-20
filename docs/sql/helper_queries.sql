@@ -60,3 +60,6 @@ alter table users add profile_picture text;
 drop DATABASE exnihilo;
 
 delete from users;
+
+ALTER PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO exnihilo_user;
+GRANT INSERT, SELECT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO exnihilo_user;

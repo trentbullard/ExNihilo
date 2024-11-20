@@ -1,10 +1,21 @@
+DROP TABLE IF EXISTS movement_muscles;
+DROP TABLE IF EXISTS muscles;
+DROP TABLE IF EXISTS workout_movements;
+DROP TABLE IF EXISTS movements;
+DROP TABLE IF EXISTS routine_workouts;
+DROP TABLE IF EXISTS workouts;
+DROP TABLE IF EXISTS user_routines;
+DROP TABLE IF EXISTS routines;
+DROP TABLE IF EXISTS auth_providers;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(50) UNIQUE,
     first_name VARCHAR(128),
     last_name VARCHAR(128),
-    profile_picture text,
+    picture text,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
