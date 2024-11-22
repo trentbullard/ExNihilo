@@ -42,8 +42,8 @@ ExNihilo/
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v20+)
-- [Angular CLI](https://angular.io/cli) (v12+)
-- PostgreSQL (v12+)
+- [Angular CLI](https://angular.io/cli) (v18+)
+- PostgreSQL (v17+)
 
 ### Setup
 1. Clone the repository:
